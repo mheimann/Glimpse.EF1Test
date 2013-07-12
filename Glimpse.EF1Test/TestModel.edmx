@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TestModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2006/04/edm/ssdl">
+        <EntityContainer Name="TestModelStoreContainer">
+          <EntitySet Name="Division" EntityType="TestModel.Store.Division" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Product" EntityType="TestModel.Store.Product" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Product_Division" Association="TestModel.Store.FK_Product_Division">
+            <End Role="Division" EntitySet="Division" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Division">
+          <Key>
+            <PropertyRef Name="Guid" />
+          </Key>
+          <Property Name="Guid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Guid" />
+          </Key>
+          <Property Name="Guid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DivisionGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="250" />
+        </EntityType>
+        <Association Name="FK_Product_Division">
+          <End Role="Division" Type="TestModel.Store.Division" Multiplicity="1" />
+          <End Role="Product" Type="TestModel.Store.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Division">
+              <PropertyRef Name="Guid" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="DivisionGuid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TestModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2006/04/edm">
+        <EntityContainer Name="TestEntities">
+          <EntitySet Name="Division" EntityType="TestModel.Division" />
+          <EntitySet Name="Product" EntityType="TestModel.Product" />
+          <AssociationSet Name="FK_Product_Division" Association="TestModel.FK_Product_Division">
+            <End Role="Division" EntitySet="Division" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Division">
+          <Key>
+            <PropertyRef Name="Guid" />
+          </Key>
+          <Property Name="Guid" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="250" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Product" Relationship="TestModel.FK_Product_Division" FromRole="Division" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Guid" />
+          </Key>
+          <Property Name="Guid" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="250" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Division" Relationship="TestModel.FK_Product_Division" FromRole="Product" ToRole="Division" />
+        </EntityType>
+        <Association Name="FK_Product_Division">
+          <End Role="Division" Type="TestModel.Division" Multiplicity="1" />
+          <End Role="Product" Type="TestModel.Product" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="urn:schemas-microsoft-com:windows:storage:mapping:CS">
+        <EntityContainerMapping StorageEntityContainer="TestModelStoreContainer" CdmEntityContainer="TestEntities">
+          <EntitySetMapping Name="Division"><EntityTypeMapping TypeName="TestModel.Division"><MappingFragment StoreEntitySet="Division">
+            <ScalarProperty Name="Guid" ColumnName="Guid" />
+            <ScalarProperty Name="Name" ColumnName="Name" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Product"><EntityTypeMapping TypeName="TestModel.Product"><MappingFragment StoreEntitySet="Product">
+            <ScalarProperty Name="Guid" ColumnName="Guid" />
+            <ScalarProperty Name="Name" ColumnName="Name" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <AssociationSetMapping Name="FK_Product_Division" TypeName="TestModel.FK_Product_Division" StoreEntitySet="Product">
+            <EndProperty Name="Division">
+              <ScalarProperty Name="Guid" ColumnName="DivisionGuid" />
+            </EndProperty>
+            <EndProperty Name="Product">
+              <ScalarProperty Name="Guid" ColumnName="Guid" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2007/06/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="TestModel">
+        <EntityTypeShape EntityType="TestModel.Division" Width="1.5" PointX="0.75" PointY="0.875" Height="1.59568359375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestModel.Product" Width="1.5" PointX="4" PointY="1.25" Height="1.5956835937499996" IsExpanded="true" />
+        <AssociationConnector Association="TestModel.FK_Product_Division" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="1.860341796875" />
+          <ConnectorPoint PointX="4" PointY="1.860341796875" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,4 @@
+*.DotSettings
+*.suo
+Glimpse.EF1Test/bin/
+Glimpse.EF1Test/obj/
